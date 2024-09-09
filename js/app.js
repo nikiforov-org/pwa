@@ -1,4 +1,4 @@
-var dataURL = "http://pwa.radonezh.info/api/";
+var dataURL = "https://radonezh.ru/ajax/update";
 var update = 60000;
 
 var getBitrate = localStorage.getItem("bitrate");
@@ -60,15 +60,36 @@ var mainView = app.views.create('.view-main');
 
 // Ask Radonezh for playlists
 var getData = function () {
-    return;
     app.request({
         url: dataURL,
         method: "POST",
         crossDomain: true,
         success: function (response) {
-            var data = JSON.parse(response);
-            $$('#playing-now').text(data.current);
-            $$('#playing-next').text(data.next);
+            // Parse the response HTML
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(response, "text/html");
+
+            // Remove <span> elements to extract clean text
+            var currentElement = doc.querySelector("#current");
+            var nextElement = doc.querySelector("#next");
+
+            if (currentElement) {
+                var currentSpan = currentElement.querySelector("span");
+                if (currentSpan) currentSpan.remove();  // Remove <span>
+            }
+
+            if (nextElement) {
+                var nextSpan = nextElement.querySelector("span");
+                if (nextSpan) nextSpan.remove();  // Remove <span>
+            }
+
+            // Extract the text for current and next programs
+            var currentDescription = currentElement ? currentElement.textContent.trim() : "N/A";
+            var nextDescription = nextElement ? nextElement.textContent.trim() : "N/A";
+
+            // Update the DOM elements with the extracted data
+            $$('#playing-now').text(currentDescription);
+            $$('#playing-next').text(nextDescription);
         },
         complete: function () {
             setTimeout(function () {
@@ -167,7 +188,7 @@ function init() {
     }
 }
 
-// Update Radonezh playlists data on swip down
+// Update Radonezh playlists data on swipe down
 $$('.ptr-content').on('ptr:refresh', function () {
     setTimeout(function () {
         getData();
