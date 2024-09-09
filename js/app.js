@@ -104,10 +104,9 @@ var getData = function () {
 document.addEventListener("online", onOnline, false);
 document.addEventListener("offline", onOffline, false);
 
-var
-    isPlaying = false,
-    networkError = false,
-    audio;
+var isPlaying = false;
+var networkError = false;
+var audio;
 
 function onOnline() {
 
@@ -174,17 +173,17 @@ function loadingView() {
 }
 
 function init() {
-
     var streamURL = localStorage.getItem("bitrate");
 
-    if (isPlaying === false) {
+    // If the player is not playing, initialize a new Audio object
+    if (!isPlaying) {
         pauseView();
-        audio = new Media(streamURL);
+        audio = new Audio(streamURL);
     } else {
+        // If the player is already playing, reset and start the new stream
         audio.pause();
         audio.currentTime = 0;
-        audio.src = null;
-        audio = new Media(streamURL);
+        audio.src = streamURL;
         audio.play();
     }
 }
