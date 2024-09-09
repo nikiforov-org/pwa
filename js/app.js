@@ -1,4 +1,5 @@
 var dataURL = "https://radonezh.ru/ajax/update";
+
 var update = 60000;
 
 var getBitrate = localStorage.getItem("bitrate");
@@ -59,6 +60,88 @@ var app = new Framework7({
 var mainView = app.views.create('.view-main');
 
 
+// Получаем URL потока из localStorage
+const streamURL = localStorage.getItem('bitrate');
+
+if (!streamURL) {
+    alert('Stream URL is not available in localStorage!');
+    throw new Error('Stream URL is not available.');
+}
+
+// Динамическое создание объекта audio
+const audioPlayer = new Audio(streamURL);
+
+// Функции для отображения состояний кнопки
+function playView() {
+    $$('.r-play-button-play').hide();
+    $$('.r-play-button-pause').show();
+    $$('.r-play-button-loading').hide();
+    $$('.r-block-progress-playback').show();
+    $$('.r-block-progress-loading').hide();
+}
+
+function pauseView() {
+    $$('.r-play-button-play').show();
+    $$('.r-play-button-pause').hide();
+    $$('.r-play-button-loading').hide();
+    $$('.r-block-progress-playback').hide();
+    $$('.r-block-progress-loading').show();
+}
+
+function loadingView() {
+    $$('.r-play-button-play').hide();
+    $$('.r-play-button-pause').hide();
+    $$('.r-play-button-loading').show();
+    $$('.r-block-progress-playback').hide();
+    $$('.r-block-progress-loading').show();
+}
+
+// Клик по кнопке Play
+$$('.r-play-button-play').click(function () {
+    loadingView(); // Переход в состояние загрузки
+    audioPlayer.play().then(() => {
+        playView();  // Переключение в состояние воспроизведения
+    }).catch(() => {
+        pauseView(); // Переключение в состояние паузы в случае ошибки
+    });
+});
+
+// Клик по кнопке Pause
+$$('.r-play-button-pause').click(function () {
+    audioPlayer.pause();
+    pauseView();  // Переключение в состояние паузы
+});
+
+// Когда поток начал загрузку
+audioPlayer.addEventListener('waiting', () => {
+    loadingView();
+});
+
+// Когда поток воспроизводится
+audioPlayer.addEventListener('playing', () => {
+    playView();
+});
+
+// Когда поток остановлен
+audioPlayer.addEventListener('pause', () => {
+    pauseView();
+});
+
+// Когда поток завершил загрузку данных
+audioPlayer.addEventListener('canplay', () => {
+    pauseView();
+});
+
+// Обработчик ошибок при загрузке потока
+audioPlayer.addEventListener('error', () => {
+    pauseView();  // Переход в паузу при ошибке
+    alert('Error loading the stream.');
+});
+
+
+
+/*
+
 // Ask Radonezh for playlists using fetch
 var getData = function () {
     fetch(dataURL)
@@ -99,7 +182,7 @@ var getData = function () {
 };
 
 getData();
-
+*/
 
 /*
 
