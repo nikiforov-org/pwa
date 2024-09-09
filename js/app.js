@@ -61,10 +61,7 @@ var mainView = app.views.create('.view-main');
 
 // Ask Radonezh for playlists using fetch
 var getData = function () {
-    fetch(dataURL, {
-        method: "POST",
-        mode: 'cors'
-    })
+    fetch(dataURL)
         .then(response => response.text())
         .then(responseText => {
             // Parse the response HTML
