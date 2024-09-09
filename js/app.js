@@ -5,7 +5,7 @@ var update = 60000;
 var getBitrate = localStorage.getItem("bitrate");
 
 if (getBitrate === null) {
-    localStorage.setItem("bitrate", "http://icecast.radonezh.cdnvideo.ru:8000/rad128");
+    localStorage.setItem("bitrate", "https://icecast-radonezh.cdnvideo.ru/rad128");
 }
 
 var $$ = Dom7;
