@@ -1,0 +1,41 @@
+{
+    "name": "Радио «Радонеж»",
+    "short_name": "Радонеж",
+    "description": "Официальное PWA-приложение Радио «Радонеж»",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#fffde7",
+    "icons": [
+        {
+            "src": "/res/icon/hdpi.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "/res/icon/ldpi.png",
+            "sizes": "36x36",
+            "type": "image/png"
+        },
+        {
+            "src": "/res/icon/mdpi.png",
+            "sizes": "48x48",
+            "type": "image/png"
+        },
+        {
+            "src": "/res/icon/xhdpi.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "/res/icon/xxhdpi.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "/res/icon/xxxhdpi.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}
