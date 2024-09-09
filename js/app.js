@@ -58,16 +58,17 @@ var app = new Framework7({
 // Create main view
 var mainView = app.views.create('.view-main');
 
-// Ask Radonezh for playlists
+// Ask Radonezh for playlists using fetch
 var getData = function () {
-    app.request({
-        url: dataURL,
+    fetch(dataURL, {
         method: "POST",
-        crossDomain: true,
-        success: function (response) {
+        mode: 'cors'
+    })
+        .then(response => response.text())
+        .then(responseText => {
             // Parse the response HTML
             var parser = new DOMParser();
-            var doc = parser.parseFromString(response, "text/html");
+            var doc = parser.parseFromString(responseText, "text/html");
 
             // Remove <span> elements to extract clean text
             var currentElement = doc.querySelector("#current");
@@ -90,13 +91,13 @@ var getData = function () {
             // Update the DOM elements with the extracted data
             $$('#playing-now').text(currentDescription);
             $$('#playing-next').text(nextDescription);
-        },
-        complete: function () {
+        })
+        .catch(error => console.error('Error fetching data:', error))
+        .finally(() => {
             setTimeout(function () {
                 getData();
             }, update);
-        }
-    });
+        });
 };
 
 // Stream Player
