@@ -135,7 +135,7 @@ audioPlayer.addEventListener('canplay', () => {
 // Обработчик ошибок при загрузке потока
 audioPlayer.addEventListener('error', () => {
     pauseView();  // Переход в паузу при ошибке
-    alert('Error loading the stream.');
+    app.dialog.alert('Проверьте подключение к сети');
 });
 
 
