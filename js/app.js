@@ -58,6 +58,7 @@ var app = new Framework7({
 // Create main view
 var mainView = app.views.create('.view-main');
 
+
 // Ask Radonezh for playlists using fetch
 var getData = function () {
     fetch(dataURL, {
@@ -99,6 +100,29 @@ var getData = function () {
             }, update);
         });
 };
+
+getData();
+
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Stream Player
 document.addEventListener("online", onOnline, false);
@@ -142,6 +166,7 @@ function onOnline() {
     }
 
 }
+
 function onOffline() {
     networkError = true;
     loadingView();
@@ -209,3 +234,4 @@ $$('#donate').on('click', function () {
         keypad.open();
     }
 });
+*/
